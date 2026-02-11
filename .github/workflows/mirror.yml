@@ -1,0 +1,22 @@
+name: Mirror to Company Repo
+
+on:
+  push:
+    branches:
+      - main  # or 'master'
+
+jobs:
+  git-mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Push to Company Repo
+        run: |
+          # Set up credentials
+          git remote add company https://x-access-token:${{ secrets.COMPANY_GITHUB_TOKEN }}@github.com/RishavKumarMiishra/DSA.git
+          
+          # Force push to the company repo
+          git push company main --force
